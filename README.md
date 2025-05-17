@@ -14,6 +14,6 @@ MCP Toy Project (May 15th ~ May 26th)
 
 ### Functions of the server
 
-- read wiki (.pdf) and figure out a plan
+- listen to the problem given by the user, read wiki (.pdf), and figure out a plan
 - see if there is anything wrong with an existing code
 - figure out if the data exists in a certain database by interecting with another (database-related)
