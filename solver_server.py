@@ -9,7 +9,6 @@ WiKI_DIR = "/Users/chaeeunryu/Desktop/MCP Study/ToyProject/MCP-Project/Wikis"
 # Initialize the MCP server
 mcp = FastMCP("Demo Server")
 
-
 @mcp.prompt
 def generate_wiki_related_prompt(topic: str, ticket_id: int=5) -> str:
     """
