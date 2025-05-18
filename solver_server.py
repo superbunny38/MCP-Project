@@ -69,6 +69,27 @@ def generate_wiki_related_prompt(ticket_id: int=5) -> str:
     return prompt_str
 
 @mcp.prompt()
+def generate_code_related_prompt(ticket_id: int, problem = str) -> str:
+    """
+    Generate a prompt for the client to find the solution referring to the code
+    on a specific problem.
+    """
+    topic = get_topic(ticket_id)
+    prompt_str = """
+    
+    This is a direct message from the client about the problem related to existing codes about the topic {topic}.
+    
+    {problem}
+    
+    Follow these instructions:
+    1. Inspect all the codes in the CodeBase (path: {CODE_DIR}) and see if there's any error.
+    2. If you find any errors, prepare for a new code file named '{original_code_name}_fiixed' and write the code in the folder.
+    3. Explain to the client what the error is and how you fixed it.
+    
+    """
+    return prompt_str
+
+@mcp.prompt()
 def generate_data_related_prompt(ticket_id: int=5) -> str:
     """
     Generate a prompt for the client to find the solution referring to the data
