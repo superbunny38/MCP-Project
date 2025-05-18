@@ -5,13 +5,14 @@ from typing import List
 from mcp.server.fastmcp import FastMCP
 import glob
 from utils import get_topic
+
 WiKI_DIR = "/Users/chaeeunryu/Desktop/MCP Study/ToyProject/MCP-Project/Wikis"
 CODE_DIR = "/Users/chaeeunryu/Desktop/MCP Study/ToyProject/MCP-Project/CodeBase"
 
 # Initialize the MCP server
 mcp = FastMCP("Demo Server")
 
-@mcp.resource("CodeBase://folders")
+@mcp.resource("CodeBase://files")
 def get_available_codes() -> str:
     """
     List all available codes in the CodeBase.
@@ -23,16 +24,20 @@ def get_available_codes() -> str:
     for folder in os.listdir(CODE_DIR):
         if os.path.isdir(os.path.join(CODE_DIR, folder)):
             codes.append(folder)
-    return json.dumps(codes)
-    
-    
+    return codes
 
-@mcp.tool()
-def extract_info_about_code(code_name: str) -> str:
+@mcp.resource("Wikis://files")
+def get_available_wikis()-> str:
+    """
+    List all available wikis in the Wikis directory.
+    This resource provides a simple list of all wikis.
     """
     
-    """
-    return
+    wikis = []
+    for folder in os.listdir(WiKI_DIR):
+        if os.path.isdir(os.path.join(WiKI_DIR, folder)):
+            wikis.append(folder)
+    return wikis
 
 @mcp.tool()
 def search_wikis(topic: str) -> List[str]:
@@ -61,9 +66,10 @@ def generate_wiki_related_prompt(ticket_id: int=5) -> str:
     prompt_str = """
     Search for the solution about {topic} in the wikis using the search_wikis tool.
     
-    1. First search for wikis using search_wikis(topic) tool.
+    1. First search for wikis using the search_wikis(topic) tool.
     2. Then, read the wikis and find the solution.
     3. Finally, summarize the solution in a structured format and bullet points for easy readibility. Make sure to give a step-by-step action plan for the client.
+    4. Make sure you include the reference so that the client can look up the original wiki.
     
     """
     return prompt_str
