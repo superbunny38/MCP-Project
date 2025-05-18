@@ -4,7 +4,7 @@ import arxiv
 from typing import List
 from mcp.server.fastmcp import FastMCP
 import glob
-
+from utils import get_topic
 WiKI_DIR = "/Users/chaeeunryu/Desktop/MCP Study/ToyProject/MCP-Project/Wikis"
 CODE_DIR = "/Users/chaeeunryu/Desktop/MCP Study/ToyProject/MCP-Project/CodeBase"
 
@@ -34,13 +34,16 @@ def extract_info_about_code(code_name: str) -> str:
     """
 
 @mcp.prompt()
-def generate_wiki_related_prompt(topic: str, ticket_id: int=5) -> str:
+def generate_wiki_related_prompt(ticket_id: int=5) -> str:
     """
     Generate a prompt for the client to find the solution referring to the wikis
     on a specific problem.
     """
     
+    topic = get_topic(ticket_id)
     prompt_str = """
+    Search for the solution about {topic} in the wikis.
+    
     
     """
     return prompt_str
