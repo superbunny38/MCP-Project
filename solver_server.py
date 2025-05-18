@@ -32,6 +32,23 @@ def extract_info_about_code(code_name: str) -> str:
     """
     
     """
+    return
+
+@mcp.tool()
+def search_wikis(topic: str) -> List[str]:
+    """
+    Search for wikis related to a specific topic.
+    
+    This tool searches through the wikis directory and returns a list of
+    wiki filenames that contain the specified topic.
+    """
+    
+    wiki_files = []
+    for filename in os.listdir(WiKI_DIR):
+        if os.path.isfile(os.path.join(WiKI_DIR, filename)) and topic in filename:
+            wiki_files.append(filename)
+    
+    return wiki_files
 
 @mcp.prompt()
 def generate_wiki_related_prompt(ticket_id: int=5) -> str:
@@ -42,19 +59,22 @@ def generate_wiki_related_prompt(ticket_id: int=5) -> str:
     
     topic = get_topic(ticket_id)
     prompt_str = """
-    Search for the solution about {topic} in the wikis.
+    Search for the solution about {topic} in the wikis using the search_wikis tool.
     
+    1. First search for wikis using search_wikis(topic) tool.
+    2. Then, read the wikis and find the solution.
+    3. Finally, summarize the solution in a structured format and bullet points for easy readibility. Make sure to give a step-by-step action plan for the client.
     
     """
     return prompt_str
 
 @mcp.prompt()
-def generate_data_related_prompt(topic: str, ticket_id: int=5) -> str:
+def generate_data_related_prompt(ticket_id: int=5) -> str:
     """
     Generate a prompt for the client to find the solution referring to the data
     on a specific problem.
     """
-    
+    topic = get_topic(ticket_id)
     prompt_str = """
     
     Generate a prompt for Claude to see if the data is
