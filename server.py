@@ -21,7 +21,6 @@ CODE_BASE_DIR = os.path.join(PROJECT_ROOT, "CodeBase")
 # Initialize the MCP server
 mcp = FastMCP("AdsDiagnosticsServer")
 
-
 @mcp.tool()
 def get_ad_data(campaign_id: str = None, ad_group_id: str = None, ad_id: str = None) -> Dict[str, Any]:
     """
@@ -503,6 +502,7 @@ def ads_comprehensive_diagnostic_prompt(ticket_id: str) -> str: # Ensure ticket_
 
 # --- Main Execution ---
 if __name__ == "__main__":
+    print("Welcome to Chaeeun's Demo!")
     print(f"Starting AdsDiagnosticsServer...")
     print(f"Project Root: {PROJECT_ROOT}")
     print(f"Wiki Directory: {WIKI_DIR}")
