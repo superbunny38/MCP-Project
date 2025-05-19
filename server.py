@@ -10,8 +10,8 @@ import subprocess # For running external scripts/C# tools if needed
 import PyPDF2 # For reading PDF wikis
 
 # Assuming utils.py is in the same directory or accessible in PYTHONPATH
-from utils import get_topic # You need to ensure this function exists and works as expected
-
+from utils import get_topic_from_db # You need to ensure this function exists and works as expected
+# import sqlite3
 from mcp.server.fastmcp import FastMCP
 
 
@@ -21,6 +21,8 @@ CODE_BASE_DIR = os.path.join(PROJECT_ROOT, "CodeBase")
 
 # Initialize the MCP server
 mcp = FastMCP("AdsDiagnosticsServer")
+
+
 
 @mcp.tool()
 def get_ad_data(campaign_id: str = None, ad_group_id: str = None, ad_id: str = None) -> Dict[str, Any]:
@@ -212,6 +214,21 @@ def read_code_file_content(file_path: str) -> Dict[str, str]:
         return {"error": f"Failed to read code file '{file_path}': {str(e)}"}
 
 @mcp.tool()
+def get_topic(ticket_id: int) -> str:
+    """
+    Retrieves the topic associated with a specific ticket ID.
+    This is a placeholder for actual implementation, which should be replaced with a real database or API call.
+
+    Args:
+        ticket_id: The ID of the ticket.
+
+    Returns:
+        A string representing the topic or an error message.
+    """
+    topic = get_topic_from_db(ticket_id) # Assuming this function exists in utils.py
+    return f"Topic for ticket {ticket_id}: {topic}"
+
+@mcp.tool()
 def analyze_code_snippet(code_snippet: str, language: str = "csharp") -> Dict[str, Any]:
     """
     Analyzes a code snippet for potential issues or to understand its behavior.
@@ -355,6 +372,7 @@ def generate_wiki_diagnostic_prompt(ticket_id: int) -> str: # Renamed from gener
     Present your findings in a structured format with clear headings and bullet points for readability.
     """
     return prompt_str
+
 
 @mcp.prompt()
 def generate_code_analysis_prompt(ticket_id: int, problem_description: str, project_subfolder: str, specific_file: str = None) -> str:
