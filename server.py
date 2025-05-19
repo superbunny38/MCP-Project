@@ -4,6 +4,7 @@ import os
 import json
 from typing import List, Dict, Any
 import glob # For file searching, useful for code files
+
 import requests # For making HTTP requests to your internal APIs
 import subprocess # For running external scripts/C# tools if needed
 import PyPDF2 # For reading PDF wikis
@@ -68,6 +69,7 @@ def get_customer_ticket_details(ticket_id: str) -> Dict[str, Any]:
     #     return response.json() # Example: {"ticket_id": "123", "description": "...", "customer_id": "..."}
     # except Exception as e:
     #     return {"error": f"API request failed: {str(e)}"}
+
     return {"status": "placeholder", "ticket_id": ticket_id, "message": "get_customer_ticket_details needs actual API implementation."}
 
 @mcp.tool()
@@ -223,6 +225,7 @@ def analyze_code_snippet(code_snippet: str, language: str = "csharp") -> Dict[st
         A dictionary with the analysis results or an error if integration is not set up.
     """
     # --- Placeholder for actual analysis API call ---
+    
     return {
         "status": "placeholder_analysis",
         "message": "This tool needs integration with a real code analysis service (e.g., SonarLint API, GitHub Copilot API if suitable).",
@@ -448,10 +451,12 @@ def generate_data_investigation_prompt(ticket_id: int, problem_description: str)
 # Comprehensive Diagnostic Prompt (from AI's previous version, slightly adapted)
 @mcp.prompt()
 def ads_comprehensive_diagnostic_prompt(ticket_id: str) -> str: # Ensure ticket_id type matches get_topic or ticket tool
+    
     """
     Generates a comprehensive prompt for the LLM to diagnose a Ads customer escalation.
     This prompt guides the LLM to use available tools step-by-step.
     """
+    
     # Assuming ticket_id is a string here for consistency with `get_customer_ticket_details`
     # If `get_topic` requires an int, you might need to cast or adjust.
     # For simplicity, I'm not calling get_topic here, but you could add it.
@@ -501,15 +506,17 @@ def ads_comprehensive_diagnostic_prompt(ticket_id: str) -> str: # Ensure ticket_
 
 
 # --- Main Execution ---
+
+
 if __name__ == "__main__":
     print("Welcome to Chaeeun's Demo!")
     print(f"Starting AdsDiagnosticsServer...")
     print(f"Project Root: {PROJECT_ROOT}")
     print(f"Wiki Directory: {WIKI_DIR}")
     print(f"CodeBase Directory: {CODE_BASE_DIR}")
-    print(f"Available tools: {[name for name, _ in mcp.tools.items()]}")
-    print(f"Available resources: {[uri for uri, _ in mcp.resources.items()]}")
-    print(f"Available prompts: {[name for name, _ in mcp.prompts.items()]}")
+    # print(f"Available tools: {[name for name, _ in mcp.list_tools()]}")
+    # print(f"Available resources: {[uri for uri, _ in mcp.resources.items()]}")
+    # print(f"Available prompts: {[name for name, _ in mcp.prompts.items()]}")
     
     # Run the server
     mcp.run(transport='stdio') # Or 'http' if you want to expose it over network e.g. mcp.run(transport='http', host='0.0.0.0', port=8080)
